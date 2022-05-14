@@ -26,22 +26,58 @@ class Background {
 
 //Misty
 class Misty {
-  constructor() {
+  constructor(x, y, w, h, arrImg) {
     this.x = x;
     this.y = y;
     this.width = w;
     this.height = h;
     this.img1 = new Image();
-    this.image1.src = arrImg[0];
-    this.image2 = new Image();
-    this.image2.src = arrImg[1];
-    this.imageMain = this.image1;
+    this.img1.src = arrImg[0];
+    this.img2 = new Image();
+    this.img2.src = arrImg[1];
+    this.imgMain = this.img1;
+    this.grav = 1;
+    this.userPull = 0;
   }
   draw() {
-    if (frames % 10 === 0) {
-        this.imageMain =
-        this.imageMain === this.image1 ? this.image2 : this.image1;
+    if (frames % 50 === 0) {
+      this.imgMain = this.imgMain === this.img1 ? this.img2 : this.img1;
     }
-    ctx.drawImage(this.img1, this.x, this.y, this.width, this.height);
+    this.grav = this.grav + (gravity - this.userPull);
+
+    if (this.y <= 0) {
+      this.userPull = 0;
+      this.y = 0;
+      this.grav = 1;
+    }
+
+    if (this.y + this.height < canvas.height) {
+      this.y += this.grav;
+    }
+    ctx.drawImage(this.imgMain, this.x, this.y, this.width, this.height);
+  }
+
+  collision(item) {
+    return (
+      this.x < item.x + item.width &&
+      this.x + this.width > item.x &&
+      this.y < item.y + item.height &&
+      this.y + this.height > item.y
+    );
+  }
+}
+
+//mud
+class Mud {
+  constructor(x, y, w, h) {
+    this.x = x;
+    this.y = 350;
+    this.width = 50;
+    this.height = 50;
+    this.img = new Image();
+    this.img.src = "images/lodo-07.png";
+  }
+  draw() {
+    ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
   }
 }
