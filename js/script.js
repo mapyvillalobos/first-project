@@ -1,6 +1,8 @@
 window.onload = function () {
   const back = new Background();
-  const misty = new Misty(150, 250, 200, 200, mistyImg);
+  const misty = new Misty(150, 250, 150, 150, mistyImg);
+  const heart = new Heart (canvas.width - 200, 20, 80, 80);
+  const gameOverImg = new GameOverImg (371, 112, 458,176)
   document.getElementById("start-button").onclick = function () {
     if (!requestId) {
       startGame();
@@ -9,8 +11,23 @@ window.onload = function () {
 
   function startGame() {
     updateGame();
-    //audio.play();
+    audio.play();
     requestId = requestAnimationFrame(updateGame);
+  }
+
+  function gameOver(){
+    gameOverImg.draw();
+    audio.pause();
+    requestId = undefined;
+  }
+
+  function resetGame() {
+    misty.x = mistyDefault.x;
+    misty.y = mistyDefault.y;
+    hearts = mistyDefault.hearts;
+    if (!requestId) {
+      startGame();
+    }
   }
 
   function updateGame() {
@@ -20,57 +37,86 @@ window.onload = function () {
     misty.draw();
     generateMud();
     drawMud();
+    generatePointes();
+    drawPointes();
+    heart.draw();
+    ctx.font = '20px Lato';
+    ctx.fillText(`${hearts}`, canvas.width - 178, 60);
+    
+    
+    if (hearts <= 0)
+    gameOver();
     if (requestId) {
       requestAnimationFrame(updateGame);
-
     }
   }
+
+
   function generateMud() {
     if (frames % 300 === 0) {
       let x = Math.floor(Math.random() * canvas.width * 0.7) + 10;
-      const mud = new Mud(
-        x,
-        300,
-        100,
-        100,
-      )
+      const mud = new Mud(x, 300, 100, 100);
       mudPuddles.push(mud);
     }
-    console.log('mud')
   }
 
   function drawMud() {
     mudPuddles.forEach((mud, index_mud) => {
-      if (mud.x + mud.width <= 0){
-        mud.splice(index_mud, 1);
+      if (mud.x + mud.width <= 0) {
+        mudPuddles.splice(index_mud, 1);
       }
       mud.draw();
+      mud.cleanMud(() => {
+        mudPuddles.splice(index_mud, 1);
+      });
 
       if (misty.collision(mud)) {
-        console.log("ya me cai");
-        requestId = undefined;
-        //bg.gameOver()
+        hearts -= 10;
       }
     });
   }
 
+  function generatePointes() {
+    if (frames % 250 === 0) {
+      let x = Math.floor(Math.random() * canvas.width * 0.5) + 80;
+      const pointe = new Pointe(x, 50, 100, 100);
+      pointes.push(pointe);
+    }
+  }
 
-  addEventListener("keydown",(event)=>{
+  function drawPointes() {
+    pointes.forEach((pointe, index_pointe) => {
+      if (pointe.x + pointe.width <= 0) {
+        pointes.splice(index_pointe, 1);
+      }
+      pointe.draw();
+      pointe.cleanMud(() => {
+        pointes.splice(index_pointe, 1);
+      });
+
+      if (misty.collision(pointe)) {
+  
+        hearts += 30;
+      }
+    });
+  }
+
+  addEventListener("keydown", (event) => {
     event.preventDefault();
     //izq
-    if(event.keyCode === 37 ){
-        misty.x -= 20;
+    if (event.keyCode === 37) {
+      misty.x -= 20;
     }
-  
+
     //dere
-    if(event.keyCode === 39){
-        misty.x += 20;
+    if (event.keyCode === 39) {
+      misty.x += 20;
     }
-  
+
     //salto
-    if(event.keyCode === 38){
-        misty.y -= 60;
-        misty.userpull = 0.2;
+    if (event.keyCode === 38) {
+      misty.y -= 60;
+      misty.userpull = 0.2;
     }
   });
 
@@ -81,5 +127,3 @@ window.onload = function () {
     }
   });
 };
-
-

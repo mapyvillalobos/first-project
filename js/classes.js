@@ -6,7 +6,7 @@ class Background {
     this.width = canvas.width;
     this.height = canvas.height;
     this.img = new Image();
-    this.img.src = "images/background-01.png";
+    this.img.src = "../images/background-01.png";
   }
   draw() {
     if (this.x < -canvas.width) {
@@ -36,22 +36,25 @@ class Misty {
     this.img2 = new Image();
     this.img2.src = arrImg[1];
     this.imgMain = this.img1;
-    this.grav = 1;
+    this.img3 = new Image();
+    this.img3.src = arrImg[2];
+    this.grav = 2;
     this.userPull = 0;
   }
   draw() {
     if (frames % 50 === 0) {
       this.imgMain = this.imgMain === this.img1 ? this.img2 : this.img1;
     }
+
     this.grav = this.grav + (gravity - this.userPull);
 
     if (this.y <= 0) {
       this.userPull = 0;
       this.y = 0;
-      this.grav = 1;
+      this.grav = 2;
     }
 
-    if (this.y + this.height < canvas.height) {
+    if (this.y + this.height <= canvas.height) {
       this.y += this.grav;
     }
     ctx.drawImage(this.imgMain, this.x, this.y, this.width, this.height);
@@ -75,9 +78,61 @@ class Mud {
     this.width = 50;
     this.height = 50;
     this.img = new Image();
-    this.img.src = "images/lodo-07.png";
+    this.img.src = "../images/mud-09.png";
   }
   draw() {
     ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
+  }
+
+  cleanMud(cb) {
+    setTimeout(() => cb(), 3000);
+  }
+}
+
+//point
+class Pointe extends Mud {
+  constructor(x, y, w, h) {
+    super(x, y, w, h);
+    this.width = 60;
+    this.height = 60;
+
+    this.img = new Image();
+    this.img.src = "../images/pointes.png";
+  }
+  draw() {
+    this.y -= 1.5;
+    ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
+  }
+
+  cleanPointe(cb) {
+    setTimeout(() => cb(), 5000);
+  }
+}
+
+class Heart {
+  constructor(x, y, w, h) {
+    this.x = x;
+    this.y = y;
+    this.width = w;
+    this.height = h;
+    this.img = new Image();
+    this.img.src = "../images/heart-07.png";
+  }
+  draw() {
+    ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
+
+  }
+
+}
+
+class GameOverImg extends Heart {
+  constructor(x, y, w, h){
+    super (x,y,w,h)
+    this.img = new Image();
+    this.img.src = "../images/gameOver.png";
+  }
+  draw() {
+    ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
+
   }
 }
