@@ -40,10 +40,16 @@ class Misty {
     this.img3.src = arrImg[2];
     this.grav = 2;
     this.userPull = 0;
+    this.isJump = false;
+
   }
   draw() {
     if (frames % 50 === 0) {
-      this.imgMain = this.imgMain === this.img1 ? this.img2 : this.img1;
+      if (this.isJump){
+        this.imgMain = this.img3;
+      } else {
+        this.imgMain = this.imgMain === this.img1 ? this.img2 : this.img1;
+      }
     }
 
     this.grav = this.grav + (gravity - this.userPull);
@@ -54,8 +60,22 @@ class Misty {
       this.grav = 2;
     }
 
+    if (this.x <= 0) {
+      this.userPull = 0;
+      this.x = 0;
+      this.grav = 2;
+    }
+
+    if (this.x >= 1000) {
+      this.userPull = 0;
+      this.x = 1000;
+      this.grav = 2;
+    }
+
     if (this.y + this.height <= canvas.height) {
       this.y += this.grav;
+    } else {
+      this.isJump = false;
     }
     ctx.drawImage(this.imgMain, this.x, this.y, this.width, this.height);
   }
@@ -85,7 +105,7 @@ class Mud {
   }
 
   cleanMud(cb) {
-    setTimeout(() => cb(), 3000);
+    return setTimeout(() => cb(), 3000);
   }
 }
 
@@ -105,7 +125,7 @@ class Pointe extends Mud {
   }
 
   cleanPointe(cb) {
-    setTimeout(() => cb(), 5000);
+    return setTimeout(() => cb(), 3000);
   }
 }
 

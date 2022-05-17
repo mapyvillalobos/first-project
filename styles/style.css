@@ -1,2 +1,28 @@
+@import url('https://fonts.googleapis.com/css2?family=Mali:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;1,200;1,300;1,400;1,500;1,600;1,700&display=swap');
+body {
+  text-align: center;
+  font-family: 'Mali', cursive;
+  
+}
 
-@import url('https://fonts.googleapis.com/css2?family=Didact+Gothic&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap');
+.container{
+    background-image: url("../images/background-01.png");
+    background-position: center;
+    background-size:cover;
+    background-repeat: no-repeat; 
+}
+
+.title {
+    font-size: 40px;
+    font-style: normal;
+    font-weight: 500;
+    color:#C44F83;
+  }
+
+  .instructions {
+    font-size: 25px;
+    font-style: normal;
+    color:black;
+    text-shadow: rgb(145, 142, 142) 0.1em 0.1em 0.2em;
+    padding-bottom: 20px;
+  }
