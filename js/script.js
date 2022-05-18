@@ -69,13 +69,13 @@ window.onload = function () {
       mud.draw();
       let cleanMud = mud.cleanMud(() => {
         mudPuddles.splice(index_mud, 1)
-        clearTimeout(cleanMud);
+        //clearTimeout(cleanMud);
       });
 
       if (misty.collision(mud)) {
         hearts -= 10;
         mudPuddles.splice(index_mud, 1);
-        clearTimeout(cleanMud);
+        //clearTimeout(cleanMud);
       }
     });
   }
@@ -92,18 +92,18 @@ window.onload = function () {
     pointes.forEach((pointe, index_pointe) => {
       if (pointe.x + pointe.width <= 0) {
         pointes.splice(index_pointe, 1);
-        clearTimeout(cleanPointes);
+        //clearTimeout(cleanPointes);
       }
       pointe.draw();
       let cleanPointes = pointe.cleanPointe(() => {
         pointes.splice(index_pointe, 1)
-        clearTimeout(cleanPointes);
+        //clearTimeout(cleanPointes);
       });
 
       if (misty.collision(pointe)) {
   pointes.splice(index_pointe, 1);
         hearts += 20;
-        clearTimeout(cleanPointes);
+        //clearTimeout(cleanPointes);
       }
     });
   }
