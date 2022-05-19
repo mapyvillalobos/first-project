@@ -1,11 +1,11 @@
 window.onload = function () {
   const back = new Background();
   const misty = new Misty(150, 250, 150, 150, mistyImg);
-  const heart = new Heart (canvas.width - 200, 20, 80, 80);
-  const gameOverImg = new GameOverImg (371, 112, 458,176)
+  const heart = new Heart(canvas.width - 200, 20, 80, 80);
+  const gameOverImg = new GameOverImg(371, 112, 458, 176);
   // document.getElementById("start-button").onclick = function () {
   //   if (!requestId) {
-    startGame();
+  startGame();
   //   }
   // };
 
@@ -15,7 +15,7 @@ window.onload = function () {
     requestId = requestAnimationFrame(updateGame);
   }
 
-  function gameOver(){
+  function gameOver() {
     gameOverImg.draw();
     audio.pause();
     music = false;
@@ -41,17 +41,14 @@ window.onload = function () {
     generatePointes();
     drawPointes();
     heart.draw();
-    ctx.font = '20px Mali';
+    ctx.font = "20px Mali";
     ctx.fillText(`${hearts}`, canvas.width - 175, 60);
-    
-    
-    if (hearts <= 0)
-    gameOver();
+
+    if (hearts <= 0) gameOver();
     if (requestId) {
       requestAnimationFrame(updateGame);
     }
   }
-
 
   function generateMud() {
     if (frames % 300 === 0) {
@@ -68,14 +65,14 @@ window.onload = function () {
       }
       mud.draw();
       let cleanMud = mud.cleanMud(() => {
-        mudPuddles.splice(index_mud, 1)
-        //clearTimeout(cleanMud);
+        mudPuddles.splice(index_mud, 1);
+        clearTimeout(cleanMud);
       });
 
       if (misty.collision(mud)) {
         hearts -= 10;
         mudPuddles.splice(index_mud, 1);
-        //clearTimeout(cleanMud);
+        clearTimeout(cleanMud);
       }
     });
   }
@@ -96,13 +93,13 @@ window.onload = function () {
       }
       pointe.draw();
       let cleanPointes = pointe.cleanPointe(() => {
-        pointes.splice(index_pointe, 1)
+        pointes.splice(index_pointe, 1);
         //clearTimeout(cleanPointes);
       });
 
       if (misty.collision(pointe)) {
-  pointes.splice(index_pointe, 1);
-        hearts += 20;
+        pointes.splice(index_pointe, 1);
+        hearts += 10;
         //clearTimeout(cleanPointes);
       }
     });
@@ -119,8 +116,8 @@ window.onload = function () {
     if (event.keyCode === 39) {
       misty.x += 20;
 
-      if(!music){
-        audio.play()
+      if (!music) {
+        audio.play();
         music = true;
       }
     }
@@ -137,6 +134,13 @@ window.onload = function () {
     event.preventDefault();
     if (event.keyCode === 38) {
       misty.userPull = 0;
+    }
+  });
+
+  addEventListener("keydown", (event) => {
+    event.preventDefault();
+    if (event.keyCode === 81) {
+      gameOver();
     }
   });
 };

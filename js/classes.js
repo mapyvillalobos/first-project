@@ -120,7 +120,7 @@ class Pointe extends Mud {
     this.img.src = "../images/pointes.png";
   }
   draw() {
-    this.y -= 1.5;
+    this.y -= 2;
     ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
   }
 

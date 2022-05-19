@@ -17,6 +17,7 @@ const pointes = [];
 const audio = new Audio()
 audio.src = '../audio/Bizet_-_Habanera_Carmen_-_8-bit_Remix.mp3';
 audio.loop = true;
+audio.level = 0.5;
 
 // let mistyDefault = {
 //     hearts : 50,
