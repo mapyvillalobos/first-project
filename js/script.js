@@ -44,11 +44,15 @@ window.onload = function () {
     ctx.font = "20px Mali";
     ctx.fillText(`${hearts}`, canvas.width - 175, 60);
 
+    //if (hearts <= 0) gameOver();
+    if (requestId) {
+      requestAnimationFrame(updateGame);
+    }
   }
 
   function generateMud() {
     if (frames % 300 === 0) {
-      let x = Math.floor(Math.random() * canvas.width * 0.7) + 10;
+      let x = Math.floor(Math.random() * canvas.width * 0.7) + 15;
       const mud = new Mud(x, 300, 100, 100);
       mudPuddles.push(mud);
     }
@@ -62,18 +66,21 @@ window.onload = function () {
       mud.draw();
       let cleanMud = mud.cleanMud(() => {
         mudPuddles.splice(index_mud, 1);
-        clearTimeout(cleanMud);
+        //clearTimeout(cleanMud);
       });
 
       if (misty.collision(mud)) {
         gameOver();
+        //hearts -= 10;
+        //mudPuddles.splice(index_mud, 1);
+        //clearTimeout(cleanMud);
       }
     });
   }
 
   function generatePointes() {
-    if (frames % 500 === 0) {
-      let x = Math.floor(Math.random() * canvas.width * 0.5) + 80;
+    if (frames % 350 === 0) {
+      let x = Math.floor(Math.random() * canvas.width * 0.5) + 20;
       const pointe = new Pointe(x, 50, 100, 100);
       pointes.push(pointe);
     }
