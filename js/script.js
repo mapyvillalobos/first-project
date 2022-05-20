@@ -44,10 +44,6 @@ window.onload = function () {
     ctx.font = "20px Mali";
     ctx.fillText(`${hearts}`, canvas.width - 175, 60);
 
-    if (hearts <= 0) gameOver();
-    if (requestId) {
-      requestAnimationFrame(updateGame);
-    }
   }
 
   function generateMud() {
@@ -70,9 +66,7 @@ window.onload = function () {
       });
 
       if (misty.collision(mud)) {
-        hearts -= 10;
-        mudPuddles.splice(index_mud, 1);
-        clearTimeout(cleanMud);
+        gameOver();
       }
     });
   }

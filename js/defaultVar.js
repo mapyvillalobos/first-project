@@ -4,7 +4,7 @@ const ctx = canvas.getContext('2d');
 const mistyImg = ["../images/misty-1r.png", "../images/misty-2r.png", "../images/misty-jump-r.png"];
 
 let frames = 0;
-let hearts = 50;
+let hearts = 0;
 const gravity = 0;
 let requestId;
 let music = false;
